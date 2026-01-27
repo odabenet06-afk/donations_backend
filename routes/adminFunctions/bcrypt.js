@@ -11,7 +11,7 @@ const handleEncryption = {
 };
 
 /*
-console.log(await handleEncryption.hashPassword("benet123"))
+console.log(await handleEncryption.hashPassword("jovan123"))
 console.log(await handleEncryption.comparePassword("test123", "$2b$10$.iKnZXPPK0kMtksmN8AZc.oWtmDvIIZ0mXnNcedvpin6qZBVQVFt."))
 */
 export default handleEncryption;

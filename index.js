@@ -18,7 +18,7 @@ const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
 const limiter = rateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
+  windowMs: 1 * 60 * 1000,
   max: 100,
   message: "Too many requests from this IP, try again later",
 });
@@ -30,7 +30,6 @@ wss.on("connection", (ws) => {
 export function toggleReload() {
   wss.clients.forEach((client) => {
     if (client.readyState === 1) {
-      // 1 is OPEN
       client.send(JSON.stringify({ message: "Reload" }));
     }
   });
