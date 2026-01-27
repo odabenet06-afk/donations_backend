@@ -1,18 +1,27 @@
 import express from "express";
 import dotenv from "dotenv";
 import pool from "./db/db.js";
-import loadRoutes from "./routes/load.js";
-import adminRoutes from "./routes/admin.js";
+import loadRoutes from "./routes/publicRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 import http from "http";
 import { WebSocketServer } from "ws";
+import cors from "cors";
+import rateLimit from "express-rate-limit";
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use(cors({ origin: "*" }));
 
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
+
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 100,
+  message: "Too many requests from this IP, try again later",
+});
 
 wss.on("connection", (ws) => {
   console.log("Client connected");
@@ -29,6 +38,7 @@ export function toggleReload() {
 
 app.use("/api", loadRoutes);
 app.use("/admin", adminRoutes);
+app.use(limiter);
 
 const startServer = async () => {
   try {
