@@ -23,6 +23,7 @@ import { loadStatsController } from "./controllers/load/loadStats.controller.js"
 import { createProjectController } from "./controllers/create/createProject.controller.js";
 import { deleteProjectController } from "./controllers/delete/deleteProject.controller.js";
 import { editProjectController } from "./controllers/edit/editProject.controller.js";
+import { editDonoationController } from "./controllers/edit/editDonation.controller.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -67,6 +68,8 @@ router.post("/create-project", createProjectController);
 router.post("/create-user", createUserController);
 
 router.post("/edit-user", editUserController);
+
+router.post("/edit-donation", editDonoationController);
 
 router.post("/edit-donor", editDonorController);
 
