@@ -2,7 +2,7 @@ import pool from "../../../db/db.js";
 
 export async function deleteProject(id) {
   try {
-    const [result] = await pool.query(`DELETE FROM Projects WHERE id = ?`, [
+    const [result] = await pool.query(`DELETE FROM projects WHERE id = ?`, [
       id,
     ]);
 
