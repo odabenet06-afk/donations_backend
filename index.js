@@ -7,17 +7,20 @@ import http from "http";
 import { WebSocketServer } from "ws";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
+import helmet from "helmet";
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors({
-  origin: "https://open-hands-seven.vercel.app",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true, 
-}));
-
+app.use(
+  cors({
+    origin: "https://open-hands-seven.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  }),
+);
+app.use(helmet());
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
