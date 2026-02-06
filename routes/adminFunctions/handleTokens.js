@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 const handleTokens = {
   generateToken: (role, secret, username) => {
-    return jwt.sign({ role, username }, secret);
+    return jwt.sign({ role, username }, secret, { expiresIn: "20h" });
   },
 
   checkToken: (token, secret) => {
