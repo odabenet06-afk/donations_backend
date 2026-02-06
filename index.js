@@ -12,7 +12,11 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: "*" }));
+app.use(cors({
+  origin: "https://open-hands-seven.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true, 
+}));
 
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
