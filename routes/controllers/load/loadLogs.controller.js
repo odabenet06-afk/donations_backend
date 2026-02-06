@@ -17,11 +17,8 @@ export async function loadLogsController(req, res) {
   if (decoded.role !== "admin")
     return res.status(403).json({ message: "Permission denied" });
 
-  const from = req.query.from || null;
-  const to = req.query.to || null;
-
   try {
-    const logs = await loadLogs(from, to);
+    const logs = await loadLogs();
     return res.status(200).json({ success: true, data: logs });
   } catch (err) {
     return res.status(500).json({ success: false, error: err.message });

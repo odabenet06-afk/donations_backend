@@ -955,7 +955,7 @@
       "response": []
     },
     {
-      "name": "http://localhost:3000/admin/load-logs?year=2026&month=1",
+      "name": "http://localhost:3000/admin/load-logs",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
       },
@@ -1018,7 +1018,7 @@
           }
         },
         "url": {
-          "raw": "http://localhost:3000/admin/load-logs?year=2026&month=1",
+          "raw": "http://localhost:3000/admin/load-logs",
           "protocol": "http",
           "host": [
             "localhost"

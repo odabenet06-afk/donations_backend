@@ -7,6 +7,18 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 dotenv.config({ path: path.join(__dirname, "../.env") });
 
+/*
+const pool = mysql.createPool({
+  host: "localhost",
+  user: "root",
+  password: "Benet2006",
+  database: "openhands",
+  port: 3306,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+});*/
+
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
