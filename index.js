@@ -41,10 +41,9 @@ export function toggleReload() {
     }
   });
 }
-
+app.use(limiter);
 app.use("/api", loadRoutes);
 app.use("/admin", adminRoutes);
-app.use(limiter);
 
 const startServer = async () => {
   try {
