@@ -4,7 +4,9 @@ import { toggleReload } from "../../../index.js";
 import { Resend } from "resend";
 import pool from "../../../db/db.js";
 
-const resend = new Resend("re_e9JPf6YP_26sH57apgcwezDQ9PX6X4yJ7");
+
+
+const resend = new Resend(process.env.RESEND);
 
 export async function createDonationController(req, res) {
   const { donationData } = req.body;

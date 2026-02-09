@@ -10,6 +10,5 @@ const handleTokens = {
   },
 };
 
-//console.log(handleTokens.generateToken("admin", "p7QvJt3K9rEwFZ2N8mA5YxD6C4HBLu0S", "test_admin"))
 
 export default handleTokens;
