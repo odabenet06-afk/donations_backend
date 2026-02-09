@@ -10,6 +10,7 @@ import { createUserController } from "./controllers/create/createUser.controller
 import { createExpenseController } from "./controllers/create/createExpense.controller.js";
 import { createDonationController } from "./controllers/create/createDonation.controller.js";
 import { authController } from "./controllers/auth.controller.js";
+import { checkTokenController } from "./controllers/checkToken.controller.js";
 import { loadLogsController } from "./controllers/load/loadLogs.controller.js";
 import { loadDonationsController } from "./controllers/load/loadDonations.controller.js";
 import { loadDonorsController } from "./controllers/load/loadDonors.controller.js";
@@ -24,6 +25,7 @@ import { createProjectController } from "./controllers/create/createProject.cont
 import { deleteProjectController } from "./controllers/delete/deleteProject.controller.js";
 import { editProjectController } from "./controllers/edit/editProject.controller.js";
 import { editDonoationController } from "./controllers/edit/editDonation.controller.js";
+
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -56,6 +58,8 @@ router.get("/load-logs", loadLogsController);
 router.get("/load-stats", loadStatsController);
 
 router.post("/auth", authController);
+
+router.post("/check-token", checkTokenController)
 
 router.post("/create-donor", createDonorController);
 
