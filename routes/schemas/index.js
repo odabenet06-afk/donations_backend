@@ -16,11 +16,10 @@ export const donorSchema = z.object({
     privacy_preference: z.enum(["SHOW_NAME_PUBLICLY", "SHOW_ID_ONLY"]),
     phone: z.string().optional().or(z.literal("")),
     notes: z.string().optional().or(z.literal("")),
-    donor_public_id: z.string().min(1),
+    donor_public_id: z.string().optional(),
     id: z.string().optional(),
   })
 });
-
 export const donationDataSchema = z.object({
   amount: z.coerce.number().positive(),
   currency: z.string().min(2).max(5),
