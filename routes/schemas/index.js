@@ -17,6 +17,7 @@ export const donorSchema = z.object({
     phone: z.string().optional().or(z.literal("")),
     notes: z.string().optional().or(z.literal("")),
     donor_public_id: z.string().min(1),
+    id: z.string().optional(),
   })
 });
 
