@@ -60,18 +60,21 @@ export const createExpenseSchema = z.object({
 
 const projectBase = {
   name: z.string().min(1),
-  description: z.string().optional().or(z.literal("")),
+  description: z.string().nullish().or(z.literal("")), 
   status: z.enum(["planned", "active", "completed"]),
-  startDate: z.coerce.date().optional().nullable().or(z.literal("")),
-  endDate: z.coerce.date().optional().nullable().or(z.literal("")),
-};
 
-export const createProjectSchema = z.object(projectBase);
+  startDate: z.coerce.date().nullable().optional(), 
+  endDate: z.coerce.date().nullable().optional(),
+};
 
 export const editProjectSchema = z.object({
   ...projectBase,
   id: z.string().min(1),
 });
+
+export const createProjectSchema = z.object(projectBase);
+
+
 
 
 export const userSchema = z.object({
