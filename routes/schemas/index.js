@@ -57,8 +57,12 @@ const projectBase = {
 export const createProjectSchema = z.object(projectBase);
 
 export const editProjectSchema = z.object({
-  ...projectBase,
   id: z.string().min(1),
+  name: z.string().min(1),
+  description: z.string().optional().or(z.literal("")),
+  status: z.enum(["planned", "active", "completed"]),
+  start_date: z.coerce.date().nullable().optional().or(z.literal("")),
+  end_date: z.coerce.date().nullable().optional().or(z.literal("")),
 });
 export const userSchema = z.object({
   username: z.string().min(2),
