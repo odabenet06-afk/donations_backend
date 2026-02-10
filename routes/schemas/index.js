@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+const optionalString = z.string().optional().or(z.literal(""));
+
 export const idSchema = z.object({
   id: z.string().uuid(),
 });
@@ -10,7 +12,7 @@ export const usernameSchema = z.object({
 
 export const userDataSchema = z.object({
   username: z.string().min(3),
-  password: z.string().min(8).optional(),
+  password: z.string().min(8).optional().or(z.literal("")),
   role: z.enum(["admin", "staff"]),
 });
 
@@ -20,8 +22,8 @@ export const userSchema = z.object({
 
 export const donorDataSchema = z.object({
   name: z.string().min(2),
-  email: z.string().email().optional(),
-  phone: z.string().optional(),
+  email: z.string().email().optional().or(z.literal("")),
+  phone: optionalString,
 });
 
 export const donorSchema = z.object({
@@ -33,7 +35,7 @@ const baseProjectSchema = z.object({
   description: z.string().min(5),
   status: z.enum(["active", "planned", "completed"]),
   start_date: z.coerce.date(),
-  end_date: z.coerce.date().optional(),
+  end_date: z.coerce.date().optional().nullable(),
 });
 
 export const createProjectSchema = baseProjectSchema;
@@ -44,10 +46,10 @@ export const editProjectSchema = baseProjectSchema.extend({
 
 export const donationDataSchema = z.object({
   amount: z.coerce.number().positive(),
-  donor_id: z.string().uuid(),
-  project_id: z.string().uuid(),
+  donor_id: z.string().uuid("Invalid donor selected"),
+  project_id: z.string().uuid("Invalid project selected"),
   date: z.coerce.date(),
-  note: z.string().optional(),
+  note: optionalString,
 });
 
 export const donationSchema = z.object({
@@ -59,7 +61,7 @@ export const expenseDataSchema = z.object({
   category: z.string().min(2),
   description: z.string().min(3),
   date: z.coerce.date(),
-  project_id: z.string().uuid(),
+  project_id: z.string().uuid("Invalid project selected"),
 });
 
 export const createExpenseSchema = z.object({
@@ -74,5 +76,5 @@ export const authSchema = z.object({
 export const loadDataQuerySchema = z.object({
   year: z.coerce.number().int().min(2000),
   month: z.coerce.number().int().min(1).max(12).optional(),
-  search: z.string().trim().min(1).optional(),
+  search: optionalString,
 });
