@@ -46,10 +46,13 @@ export const editProjectSchema = baseProjectSchema.extend({
 
 export const donationDataSchema = z.object({
   amount: z.coerce.number().positive(),
-  donor_id: z.string().uuid("Invalid donor selected"),
-  project_id: z.string().uuid("Invalid project selected"),
+  donor_id: z.string().min(1), 
+  project_id: z.string().uuid().optional().nullable(), 
   date: z.coerce.date(),
-  note: optionalString,
+  currency: z.string().min(2).max(5).default("MKD"),
+  donation_purpose: z.string().optional(),
+  receipt_number: z.string().optional().or(z.literal("")),
+  donor_name: z.string().optional(),
 });
 
 export const donationSchema = z.object({
