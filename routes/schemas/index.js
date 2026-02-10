@@ -11,11 +11,12 @@ export const usernameSchema = z.object({
 export const donorSchema = z.object({
   first_name: z.string().min(1),
   last_name: z.string().min(1),
-  email: z.string().email().optional().or(z.literal("")),
+  email: z.string().email().optional().or(z.literal("")), 
   privacy_preference: z.enum(["SHOW_NAME_PUBLICLY", "SHOW_ID_ONLY"]),
   phone: z.string().optional().or(z.literal("")),
   notes: z.string().optional().or(z.literal("")),
-  id: z.string().optional(), 
+  id: z.string().optional(),
+  donor_public_id: z.string().optional(), 
 });
 
 export const donationDataSchema = z.object({
