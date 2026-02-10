@@ -4,9 +4,17 @@ import { toggleReload } from "../../../index.js";
 import { Resend } from "resend";
 import pool from "../../../db/db.js";
 
-
-
 const resend = new Resend(process.env.RESEND);
+
+function escapeHtml(str) {
+  if (!str) return "";
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 
 export async function createDonationController(req, res) {
   const { donationData } = req.body;
@@ -31,22 +39,31 @@ export async function createDonationController(req, res) {
 
     if (result.email) {
       try {
-        // Send the email
+        const safe = {
+          donor_name: escapeHtml(donationData.donor_name),
+          donor_id: escapeHtml(donationData.donor_id),
+          amount: donationData.amount,
+          currency: escapeHtml(donationData.currency),
+          donation_purpose: escapeHtml(donationData.donation_purpose),
+          receipt_number: escapeHtml(donationData.receipt_number),
+          date: new Date().toLocaleString(),
+        };
+
         const sentResponse = await resend.emails.send({
           from: "Matura App <no-reply@maturaapp.org>",
           to: result.email,
           subject: `Donation Confirmation – Thank you for supporting [NGO Name]`,
-          text: `Hello ${donationData.donor_name},
+          text: `Hello ${safe.donor_name},
 
-Thank you for your generous donation of ${donationData.amount} ${donationData.currency}.
+Thank you for your generous donation of ${safe.amount} ${safe.currency}.
 
 Donation Details:
-- Donor Name: ${donationData.donor_name}
-- Donor ID: ${donationData.donor_id}
-- Amount: ${donationData.amount} ${donationData.currency}
-- Purpose: ${donationData.donation_purpose}
-- Receipt Number: ${donationData.receipt_number}
-- Date: ${new Date().toLocaleString()}
+- Donor Name: ${safe.donor_name}
+- Donor ID: ${safe.donor_id}
+- Amount: ${safe.amount} ${safe.currency}
+- Purpose: ${safe.donation_purpose}
+- Receipt Number: ${safe.receipt_number}
+- Date: ${safe.date}
 
 We appreciate your support!
 
@@ -55,25 +72,25 @@ Thank you,
 `,
           html: `
 <div style="font-family: 'Inter', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
-    <h2 style="color: #0056b3; text-align: center; margin-bottom: 20px;">Donation Confirmation</h2>
-    <p>Hello <strong>${donationData.donor_name}</strong>,</p>
-    <p>Thank you for your generous donation. Here are your donation details:</p>
-    <div style="background-color: #f0f0f0; padding: 15px; border-radius: 5px; margin: 20px 0;">
-        <p><strong>Donor Name:</strong> ${donationData.donor_name}</p>
-        <p><strong>Donor ID:</strong> ${donationData.donor_id}</p>
-        <p><strong>Amount:</strong> ${donationData.amount} ${donationData.currency}</p>
-        <p><strong>Purpose:</strong> ${donationData.donation_purpose}</p>
-        <p><strong>Receipt Number:</strong> ${donationData.receipt_number}</p>
-        <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
-    </div>
-    <p>We appreciate your support! Your donation helps us continue our work.</p>
-    <p style="margin-top: 30px; text-align: center; color: #555;">
-        Thank you,<br>
-        [NGO Name] Team
-    </p>
-    <p style="font-size: 0.8em; text-align: center; color: #aaa; margin-top: 20px;">
-        This is an automated email, please do not reply.
-    </p>
+  <h2 style="color: #0056b3; text-align: center; margin-bottom: 20px;">Donation Confirmation</h2>
+  <p>Hello <strong>${safe.donor_name}</strong>,</p>
+  <p>Thank you for your generous donation. Here are your donation details:</p>
+  <div style="background-color: #f0f0f0; padding: 15px; border-radius: 5px; margin: 20px 0;">
+      <p><strong>Donor Name:</strong> ${safe.donor_name}</p>
+      <p><strong>Donor ID:</strong> ${safe.donor_id}</p>
+      <p><strong>Amount:</strong> ${safe.amount} ${safe.currency}</p>
+      <p><strong>Purpose:</strong> ${safe.donation_purpose}</p>
+      <p><strong>Receipt Number:</strong> ${safe.receipt_number}</p>
+      <p><strong>Date:</strong> ${safe.date}</p>
+  </div>
+  <p>We appreciate your support! Your donation helps us continue our work.</p>
+  <p style="margin-top: 30px; text-align: center; color: #555;">
+      Thank you,<br>
+      [NGO Name] Team
+  </p>
+  <p style="font-size: 0.8em; text-align: center; color: #aaa; margin-top: 20px;">
+      This is an automated email, please do not reply.
+  </p>
 </div>
 `,
         });
@@ -82,9 +99,8 @@ Thank you,
           console.error("Email API Error:", sentResponse.error.message);
 
           await pool.query(
-            `INSERT INTO audit_logs 
-        (entity_type, entity_id, action, changed_at, before_value, after_value)
-        VALUES (?, ?, ?, NOW(), NULL, ?)`,
+            `INSERT INTO audit_logs (entity_type, entity_id, action, changed_at, before_value, after_value)
+             VALUES (?, ?, ?, NOW(), NULL, ?)`,
             [
               "email",
               result.email,
@@ -93,28 +109,19 @@ Thank you,
             ],
           );
         } else {
-       
           console.log("Email sent successfully:", sentResponse.data.id);
 
           await pool.query(
-            `INSERT INTO audit_logs 
-        (entity_type, entity_id, action, changed_at, before_value, after_value)
-        VALUES (?, ?, ?, NOW(), NULL, ?)`,
-            [
-              "email",
-             result.email,
-              "sent",
-              null,
-            ],
+            `INSERT INTO audit_logs (entity_type, entity_id, action, changed_at, before_value, after_value)
+             VALUES (?, ?, ?, NOW(), NULL, ?)`,
+            ["email", result.email, "sent", null],
           );
         }
       } catch (err) {
-
         console.error("System Crash:", err.message);
         await pool.query(
-          `INSERT INTO audit_logs 
-      (entity_type, entity_id, action, changed_at, before_value, after_value)
-      VALUES (?, ?, ?, NOW(), NULL, ?)`,
+          `INSERT INTO audit_logs (entity_type, entity_id, action, changed_at, before_value, after_value)
+           VALUES (?, ?, ?, NOW(), NULL, ?)`,
           [
             "email",
             result.email,
@@ -129,4 +136,3 @@ Thank you,
 
   return res.status(500).json({ error: result.error });
 }
- 
