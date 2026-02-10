@@ -18,7 +18,7 @@ app.set("trust proxy", 1);
 app.use(express.json());
 app.use(
   cors({
-    origin: process.env.ORIGIN,
+    origin: ALLOWED_ORIGIN,
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }),
@@ -38,7 +38,7 @@ wss.on("connection", (ws, request) => {
 
   if (origin !== ALLOWED_ORIGIN) {
     console.log(`Blocked WS connection from origin: ${origin}`);
-    ws.close(1008, "Origin not allowed"); 
+    ws.close(1008, "Origin not allowed");
     return;
   }
 
