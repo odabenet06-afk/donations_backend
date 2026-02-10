@@ -68,7 +68,6 @@ const projectBase = {
 
 export const createProjectSchema = z.object(projectBase);
 
-
 export const editProjectSchema = z.object({
   ...projectBase,
   id: z.string().min(1),
