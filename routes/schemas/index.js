@@ -45,21 +45,24 @@ export const createExpenseSchema = z.object({
   attachment_url: z.string().url().optional().or(z.literal("")),
 });
 
+import { z } from "zod";
+
 const projectBase = {
   name: z.string().min(1),
   description: z.string().optional().or(z.literal("")),
   status: z.enum(["planned", "active", "completed"]),
-  start_date: z.coerce.date(),
+
+  start_date: z.coerce.date().optional().nullable().or(z.literal("")),
   end_date: z.coerce.date().optional().nullable().or(z.literal("")),
 };
 
 export const createProjectSchema = z.object(projectBase);
 
-export const editProjectSchema = z.object({
+
+export const projectSchema = z.object({
   ...projectBase,
   id: z.string().min(1),
 });
-
 export const userSchema = z.object({
   username: z.string().min(2),
   password: z.string().min(6).optional().or(z.literal("")),
