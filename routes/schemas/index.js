@@ -12,25 +12,32 @@ export const donorSchema = z.object({
   donorData: z.object({
     first_name: z.string().min(1),
     last_name: z.string().min(1),
-    email: z.string().email().optional().or(z.literal("")), 
+    email: z.string().email().optional().or(z.literal("")),
     privacy_preference: z.enum(["SHOW_NAME_PUBLICLY", "SHOW_ID_ONLY"]),
     phone: z.string().optional().or(z.literal("")),
     notes: z.string().optional().or(z.literal("")),
     donor_public_id: z.string().optional(),
     id: z.string().optional(),
-  })
+  }),
 });
+import { z } from "zod";
+
 export const donationDataSchema = z.object({
-  amount: z.coerce.number().positive(),
+  id: z.union([z.string(), z.number()]),
+
+  amount: z.coerce.number().positive("Amount must be a positive number"),
+
   currency: z.string().min(2).max(5),
-  donor_id: z.string().min(1),
+  donor_id: z.string().min(1, "Donor ID is required"),
+  donor_name: z.string().min(1, "Donor name is required"),
+
   donation_purpose: z.string().optional().or(z.literal("")),
   receipt_number: z.string().optional().or(z.literal("")),
-  donor_name: z.string().min(1),
-  project_id: z.string().uuid().optional().nullable(),
+
+  project_id: z.string().uuid().nullable().optional(),
 });
 
-export const donationSchema = z.object({
+export const editDonationSchema = z.object({
   donationData: donationDataSchema,
 });
 
