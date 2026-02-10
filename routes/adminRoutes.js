@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
+
+// Controllers
 import { createDonorController } from "./controllers/create/createDonor.controller.js";
 import { editUserController } from "./controllers/edit/editUser.controller.js";
 import { editDonorController } from "./controllers/edit/editDonor.controller.js";
@@ -26,6 +28,20 @@ import { deleteProjectController } from "./controllers/delete/deleteProject.cont
 import { editProjectController } from "./controllers/edit/editProject.controller.js";
 import { editDonoationController } from "./controllers/edit/editDonation.controller.js";
 
+import { validate } from "./middleware/validate.js";
+
+import {
+  donorSchema,
+  userSchema,
+  createProjectSchema,
+  editProjectSchema,
+  donationSchema,
+  createExpenseSchema,
+  idSchema,
+  usernameSchema,
+  authSchema,
+  loadDataQuerySchema,
+} from "./schemas/index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -33,50 +49,52 @@ dotenv.config({ path: path.join(__dirname, "../.env") });
 
 const router = express.Router();
 
-router.post("/delete-donor", deleteDonorController);
-
-router.post("/delete-user", deleteUserController);
-
-router.post("/delete-project", deleteProjectController);
-
-router.post("/void-expense", voidExpenseController);
-
-router.post("/void-donation", voidDonationController);
+router.post("/delete-donor", validate(idSchema), deleteDonorController);
+router.post("/delete-user", validate(usernameSchema), deleteUserController);
+router.post("/delete-project", validate(idSchema), deleteProjectController);
+router.post("/void-expense", validate(idSchema), voidExpenseController);
+router.post("/void-donation", validate(idSchema), voidDonationController);
 
 router.get("/load-users", loadUsersController);
-
 router.get("/load-projects", loadProjectsController);
-
 router.get("/load-expenses", loadExpensesController);
-
 router.get("/load-donors", loadDonorsController);
-
 router.get("/load-donations", loadDonationsController);
-
 router.get("/load-logs", loadLogsController);
-
 router.get("/load-stats", loadStatsController);
 
-router.post("/auth", authController);
+router.post("/auth", validate(authSchema), authController);
+router.post("/check-token", checkTokenController);
 
-router.post("/check-token", checkTokenController)
+router.post("/create-donor", validate(donorSchema), createDonorController);
+router.post(
+  "/create-donation",
+  validate(donationSchema),
+  createDonationController,
+);
+router.post(
+  "/create-expense",
+  validate(createExpenseSchema),
+  createExpenseController,
+);
+router.post(
+  "/create-project",
+  validate(createProjectSchema),
+  createProjectController,
+);
+router.post("/create-user", validate(userSchema), createUserController);
 
-router.post("/create-donor", createDonorController);
-
-router.post("/create-donation", createDonationController);
-
-router.post("/create-expense", createExpenseController);
-
-router.post("/create-project", createProjectController);
-
-router.post("/create-user", createUserController);
-
-router.post("/edit-user", editUserController);
-
-router.post("/edit-donation", editDonoationController);
-
-router.post("/edit-donor", editDonorController);
-
-router.post("/edit-project", editProjectController);
+router.post("/edit-user", validate(userSchema), editUserController);
+router.post(
+  "/edit-donation",
+  validate(donationSchema),
+  editDonoationController,
+);
+router.post("/edit-donor", validate(donorSchema), editDonorController);
+router.post(
+  "/edit-project",
+  validate(editProjectSchema),
+  editProjectController,
+);
 
 export default router;

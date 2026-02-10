@@ -1,0 +1,91 @@
+import { z } from "zod";
+
+export const idSchema = z
+  .object({
+    id: z.string().uuid(),
+  })
+  .strict();
+
+export const usernameSchema = z
+  .object({
+    username: z.string().min(3),
+  })
+  .strict();
+
+export const userDataSchema = z.object({
+  username: z.string().min(3),
+  password: z.string().min(8).optional(),
+  role: z.enum(["admin", "user"]),
+});
+
+export const userSchema = z
+  .object({
+    userData: userDataSchema,
+  })
+  .strict();
+
+export const donorDataSchema = z.object({
+  name: z.string().min(2),
+  email: z.string().email().optional(),
+  phone: z.string().optional(),
+});
+
+export const donorSchema = z
+  .object({
+    donorData: donorDataSchema,
+  })
+  .strict();
+
+const baseProjectSchema = z.object({
+  name: z.string().min(2),
+  description: z.string().min(5),
+  status: z.enum(["active", "inactive", "completed"]),
+  start_date: z.string().datetime(),
+  end_date: z.string().datetime().optional(),
+});
+
+export const createProjectSchema = baseProjectSchema.strict();
+export const editProjectSchema = baseProjectSchema
+  .extend({ id: z.string().uuid() })
+  .strict();
+
+export const donationDataSchema = z.object({
+  amount: z.number().positive(),
+  donor_id: z.string().uuid(),
+  project_id: z.string().uuid(),
+  date: z.string().datetime(),
+  note: z.string().optional(),
+});
+
+export const donationSchema = z
+  .object({
+    donationData: donationDataSchema,
+  })
+  .strict();
+
+export const expenseDataSchema = z.object({
+  amount: z.number().positive(),
+  category: z.string().min(2),
+  description: z.string().min(3),
+  date: z.string().datetime(),
+  project_id: z.string().uuid(),
+});
+
+export const createExpenseSchema = z
+  .object({
+    expenseData: expenseDataSchema,
+  })
+  .strict();
+
+export const authSchema = z
+  .object({
+    username: z.string().min(3),
+    password: z.string().min(8),
+  })
+  .strict();
+
+export const loadDataQuerySchema = z.object({
+  year: z.coerce.number().int().min(2000),
+  month: z.coerce.number().int().min(1).max(12).optional(),
+  search: z.string().trim().min(1).optional(),
+});
