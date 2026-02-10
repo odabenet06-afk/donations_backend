@@ -5,10 +5,7 @@ export const deleteByIdSchema = z
     id: z.union([z.string(), z.number()]).optional(),
     project_id: z.union([z.string(), z.number()]).optional(),
   })
-  .refine(
-    (data) => data.id || data.project_id,
-    "id or project_id is required"
-  )
+  .refine((data) => data.id || data.project_id, "id or project_id is required")
   .transform((data) => ({
     id: String(data.id ?? data.project_id),
   }));
@@ -58,20 +55,26 @@ export const createExpenseSchema = z.object({
   attachment_url: z.string().url().optional().or(z.literal("")),
 });
 
-const projectBase = {
+const projectCreateBase = {
   name: z.string().min(1),
-  description: z.string().optional().or(z.literal("")),
+  description: z.string().optional(),
   status: z.enum(["planned", "active", "completed"]),
-  start_date: z.coerce.date().optional().nullable().or(z.literal("")),
-  end_date: z.coerce.date().optional().nullable().or(z.literal("")),
+  start_date: z.coerce.date().optional().nullable(),
+  end_date: z.coerce.date().optional().nullable(),
 };
 
-export const createProjectSchema = z.object(projectBase);
+export const createProjectSchema = z.object(projectCreateBase);
 
 export const editProjectSchema = z.object({
-  ...projectBase,
-  id: z.string().min(1),
+  id: z.coerce.number(),
+
+  name: z.string().min(1).optional(),
+  description: z.string().optional(),
+  status: z.enum(["planned", "active", "completed"]).optional(),
+  start_date: z.coerce.date().optional().nullable(),
+  end_date: z.coerce.date().optional().nullable(),
 });
+
 export const userSchema = z.object({
   username: z.string().min(2),
   password: z.string().min(6).optional().or(z.literal("")),
