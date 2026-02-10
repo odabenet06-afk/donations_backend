@@ -55,27 +55,20 @@ export const createExpenseSchema = z.object({
   attachment_url: z.string().url().optional().or(z.literal("")),
 });
 
-
-
-
 const projectBase = {
   name: z.string().min(1),
-  description: z.string().nullish().or(z.literal("")), 
+  description: z.string().nullish().or(z.literal("")),
   status: z.enum(["planned", "active", "completed"]),
-
-  startDate: z.coerce.date().nullable().optional(), 
-  endDate: z.coerce.date().nullable().optional(),
+  startDate: z.string().optional().nullable().or(z.literal("")),
+  endDate: z.string().optional().nullable().or(z.literal("")),
 };
 
 export const editProjectSchema = z.object({
   ...projectBase,
-  id: z.number().min(1),
+  id: z.number().positive(),
 });
 
 export const createProjectSchema = z.object(projectBase);
-
-
-
 
 export const userSchema = z.object({
   username: z.string().min(2),

@@ -1,44 +1,30 @@
 import pool from "../../../db/db.js";
 import handleEncryption from "../../adminFunctions/bcrypt.js";
 
-export async function editUser(userData) {
+export async function editProject(
+  id,      
+  name,
+  description,
+  status,
+  startDate,
+  endDate
+) {
   try {
-    let query;
-    let params;
-
-    if (userData.password && userData.password.trim() !== "") {
-      const hashedPassword = await handleEncryption.hashPassword(
-        userData.password,
-      );
-
-      query = `UPDATE users 
-               SET username = ?, password_hash = ?, role = ? 
-               WHERE username = ?`;
-      params = [
-        userData.username,
-        hashedPassword,
-        userData.role,
-        userData.before,
-      ];
-    } else {
-      query = `UPDATE users 
-               SET username = ?, role = ? 
-               WHERE username = ?`;
-      params = [userData.username, userData.role, userData.before];
-    }
-
-    const [result] = await pool.query(query, params);
+    const [result] = await pool.query(
+      `UPDATE projects
+       SET name = ?, description = ?, status = ?, start_date = ?, end_date = ? 
+       WHERE id = ?`,
+      [name, description, status, startDate || null, endDate || null, id]
+    );
 
     if (result.affectedRows === 0) {
-      return {
-        success: false,
-        message: `User '${userData.before}' not found.`,
-      };
+      return { success: false, message: "Project not found." };
     }
 
-    return { success: true };
+    return { success: true, message: "Project updated successfully." };
   } catch (error) {
-    console.error("Error editing user:", error.message);
+    console.error("Error editing Project:", error.message);
     return { success: false, error: error.message };
   }
 }
+
