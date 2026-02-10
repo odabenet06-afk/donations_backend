@@ -21,12 +21,12 @@ export async function editProjectController(req, res) {
     return res.status(403).json({ message: "Permission denied" });
 
   const result = await editProject(
+    id,
     name,
     description,
     status,
     start_date,
     end_date,
-    id,
   );
 
   if (result.success)
