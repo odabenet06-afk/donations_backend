@@ -9,6 +9,8 @@ import cors from "cors";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 
+const ALLOWED_ORIGIN = "https://open-hands-seven.vercel.app";
+
 dotenv.config();
 
 const app = express();
@@ -31,8 +33,20 @@ const limiter = rateLimit({
   message: "Too many requests from this IP, try again later",
 });
 
-wss.on("connection", (ws) => {
-  console.log("Client connected");
+wss.on("connection", (ws, request) => {
+  const origin = request.headers.origin;
+
+  if (origin !== ALLOWED_ORIGIN) {
+    console.log(`Blocked WS connection from origin: ${origin}`);
+    ws.close(1008, "Origin not allowed"); 
+    return;
+  }
+
+  console.log("Client connected from allowed origin");
+
+  ws.on("message", (msg) => {
+    console.log("Received:", msg.toString());
+  });
 });
 
 export function toggleReload() {
