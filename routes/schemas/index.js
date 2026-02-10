@@ -69,7 +69,7 @@ const projectBase = {
 
 export const editProjectSchema = z.object({
   ...projectBase,
-  id: z.string().min(1),
+  id: z.number().min(1),
 });
 
 export const createProjectSchema = z.object(projectBase);
