@@ -15,7 +15,7 @@ export const donorSchema = z.object({
   privacy_preference: z.enum(["SHOW_NAME_PUBLICLY", "SHOW_ID_ONLY"]),
   phone: z.string().optional().or(z.literal("")),
   notes: z.string().optional().or(z.literal("")),
-  id: z.string().optional(),
+  id: z.string().optional(), 
 });
 
 export const donationDataSchema = z.object({
@@ -41,7 +41,7 @@ export const createExpenseSchema = z.object({
   attachment_url: z.string().url().optional().or(z.literal("")),
 });
 
-tBase = {
+const projectBase = {
   name: z.string().min(1),
   description: z.string().optional().or(z.literal("")),
   status: z.enum(["planned", "active", "completed"]),
