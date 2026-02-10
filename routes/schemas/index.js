@@ -45,7 +45,6 @@ export const createExpenseSchema = z.object({
   attachment_url: z.string().url().optional().or(z.literal("")),
 });
 
-
 const projectBase = {
   name: z.string().min(1),
   description: z.string().optional().or(z.literal("")),
@@ -57,8 +56,7 @@ const projectBase = {
 
 export const createProjectSchema = z.object(projectBase);
 
-
-export const projectSchema = z.object({
+export const editProjectSchema = z.object({
   ...projectBase,
   id: z.string().min(1),
 });
