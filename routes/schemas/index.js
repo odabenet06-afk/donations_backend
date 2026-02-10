@@ -66,7 +66,8 @@ const projectBase = {
   endDate: z.coerce.date().optional().nullable().or(z.literal("")),
 };
 
-export const createProjectSchema = z.object(projectCreateBase);
+export const createProjectSchema = z.object(projectBase);
+
 
 export const editProjectSchema = z.object({
   ...projectBase,
