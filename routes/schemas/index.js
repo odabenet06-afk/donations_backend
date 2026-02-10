@@ -20,7 +20,6 @@ export const donorSchema = z.object({
     id: z.string().optional(),
   }),
 });
-import { z } from "zod";
 
 export const donationDataSchema = z.object({
   id: z.union([z.string(), z.number()]),
