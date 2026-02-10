@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// Controllers
 import { createDonorController } from "./controllers/create/createDonor.controller.js";
 import { editUserController } from "./controllers/edit/editUser.controller.js";
 import { editDonorController } from "./controllers/edit/editDonor.controller.js";
