@@ -25,28 +25,27 @@ app.use(
 );
 app.use(helmet());
 const server = http.createServer(app);
-const wss = new WebSocketServer({ server });
 
-const limiter = rateLimit({
-  windowMs: 1 * 60 * 1000,
-  max: 100,
-  message: "Too many requests from this IP, try again later",
-});
+const wss = new WebSocketServer({ server, path: "/ws" });
 
 wss.on("connection", (ws, request) => {
   const origin = request.headers.origin;
-
   if (origin !== ALLOWED_ORIGIN) {
     console.log(`Blocked WS connection from origin: ${origin}`);
     ws.close(1008, "Origin not allowed");
     return;
   }
-
   console.log("Client connected from allowed origin");
 
   ws.on("message", (msg) => {
     console.log("Received:", msg.toString());
   });
+});
+
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 100,
+  message: "Too many requests from this IP, try again later",
 });
 
 export function toggleReload() {
