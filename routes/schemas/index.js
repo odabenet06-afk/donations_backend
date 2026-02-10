@@ -1,7 +1,22 @@
 import { z } from "zod";
 
-export const idSchema = z.object({
-  id: z.string().min(1)
+import { z } from "zod";
+
+export const deleteByIdSchema = z
+  .object({
+    id: z.union([z.string(), z.number()]).optional(),
+    project_id: z.union([z.string(), z.number()]).optional(),
+  })
+  .refine(
+    (data) => data.id || data.project_id,
+    "id or project_id is required"
+  )
+  .transform((data) => ({
+    id: String(data.id ?? data.project_id),
+  }));
+
+export const deleteUserSchema = z.object({
+  username: z.string().min(1),
 });
 
 export const usernameSchema = z.object({
