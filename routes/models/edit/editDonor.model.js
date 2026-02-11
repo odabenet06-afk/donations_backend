@@ -1,11 +1,18 @@
 import pool from "../../../db/db.js";
 
 export async function editDonor(donorData, username) {
-  const { donor_public_id } = donorData;
+  const { donor_public_id, id } = donorData;
 
+  if (!donor_public_id && !id) {
+    return { success: false, message: "Donor identifier missing" };
+  }
+
+  // Lookup donor by public_id first, fallback to id
   const [rows] = await pool.query(
-    `SELECT * FROM donors WHERE donor_public_id = ?`,
-    [donor_public_id],
+    donor_public_id
+      ? `SELECT * FROM donors WHERE donor_public_id = ?`
+      : `SELECT * FROM donors WHERE id = ?`,
+    [donor_public_id || id]
   );
 
   const beforeRecord = rows[0];
@@ -28,7 +35,6 @@ export async function editDonor(donorData, username) {
   for (const field of editableFields) {
     const newVal = donorData[field];
     const oldVal = beforeRecord[field];
-
     if (newVal !== undefined && newVal !== oldVal) {
       updates.push(`${field} = ?`);
       updateParams.push(newVal);
@@ -40,8 +46,10 @@ export async function editDonor(donorData, username) {
   if (updates.length === 0)
     return { success: true, message: "No changes detected." };
 
-  updateParams.push(donor_public_id);
-  const sql = `UPDATE donors SET ${updates.join(", ")} WHERE donor_public_id = ?`;
+  updateParams.push(donor_public_id || id);
+  const sql = donor_public_id
+    ? `UPDATE donors SET ${updates.join(", ")} WHERE donor_public_id = ?`
+    : `UPDATE donors SET ${updates.join(", ")} WHERE id = ?`;
 
   try {
     await pool.query(sql, updateParams);
@@ -51,12 +59,12 @@ export async function editDonor(donorData, username) {
        VALUES (?, ?, NOW(), ?, ?, ?, ?)`,
       [
         "donor",
-        donor_public_id,
+        donor_public_id || id,
         "update",
         username,
         JSON.stringify(before_value),
         JSON.stringify(after_value),
-      ],
+      ]
     );
 
     return { success: true, message: "Donor updated and audit log created." };
