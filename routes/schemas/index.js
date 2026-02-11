@@ -45,17 +45,17 @@ export const donationSchema = z.object({
   donationData: donationDataSchema,
 });
 
-export const createExpenseSchema = z.object({
-  amount: z.coerce.number().positive(),
-  currency: z.string().min(2).max(5),
-  category: z.string().min(1),
-  description: z.string().optional().or(z.literal("")),
-  project_name: z.string().optional().nullable(),
-  attachment_url: z.union([
-    z.string().url(),
-    z.literal(""),
-    z.null()
-  ]).optional(),
+export const createExpenseRequestSchema = z.object({
+  expenseData: z.object({
+    amount: z.coerce.number().positive(),
+    currency: z.string().min(2).max(5),
+    category: z.string().min(1),
+    description: z.string().optional().default(""),
+    project_name: z.string().optional().nullable(),
+    attachment_url: z
+      .union([z.string().url(), z.literal(""), z.null()])
+      .optional(),
+  }),
 });
 
 const projectBase = {
