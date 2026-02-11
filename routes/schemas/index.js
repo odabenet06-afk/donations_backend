@@ -32,7 +32,7 @@ export const donorSchema = z.object({
 });
 
 export const donationDataSchema = z.object({
-  id: z.union([z.string(), z.number()]),
+  id: z.union([z.string(), z.number()]).optional(),
   amount: z.coerce.number().positive(),
   currency: z.string().min(2).max(5),
   donor_id: z.string().min(1),
