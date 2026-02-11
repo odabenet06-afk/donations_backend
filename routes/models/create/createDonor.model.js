@@ -4,7 +4,6 @@ export async function createDonor(donorData, username) {
   const { first_name, last_name, email, privacy_preference, phone, notes } =
     donorData;
 
-
   const [rows] = await pool.query(`SELECT COUNT(*) as count FROM donors`);
   const nextNumber = (rows[0]?.count || 0) + 1;
   const donor_public_id = `DNR-${nextNumber.toString().padStart(8, "0")}`;
@@ -26,11 +25,9 @@ export async function createDonor(donorData, username) {
       ],
     );
 
-
     await pool.query(
       `UPDATE system_stats SET total_donors = total_donors + 1 WHERE id = 1`,
     );
-
 
     await pool.query(
       `INSERT INTO audit_logs (entity_type, entity_id, changed_at, action, changed_by_username)
@@ -39,9 +36,12 @@ export async function createDonor(donorData, username) {
     );
 
     console.log("Donor created with ID:", result.insertId);
-    return { success: true, id: result.insertId };
+    return { success: true, id: result.insertId, public_id: donor_public_id };
   } catch (error) {
     console.error("Error creating donor:", error.message);
-    return { success: false, error: error.message };
+    return {
+      success: false,
+      error: error.message,
+    };
   }
 }
