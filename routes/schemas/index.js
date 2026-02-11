@@ -45,7 +45,7 @@ export const donationSchema = z.object({
   donationData: donationDataSchema,
 });
 
-export const createExpenseRequestSchema = z.object({
+export const createExpenseSchema = z.object({
   expenseData: z.object({
     amount: z.coerce.number().positive(),
     currency: z.string().min(2).max(5),
