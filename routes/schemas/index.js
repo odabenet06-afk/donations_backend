@@ -74,12 +74,13 @@ export const editProjectSchema = z.object({
 export const createProjectSchema = z.object(projectBase);
 
 export const userSchema = z.object({
-  username: z.string().min(2),
-  password: z.string().min(6).optional().or(z.literal("")),
-  role: z.enum(["admin", "staff"]),
-  id: z.string().optional(),
+  userData: z.object({
+    username: z.string().min(2),
+    password: z.string().min(6),
+    role: z.enum(["admin", "staff"]),
+    id: z.string().optional(),
+  }),
 });
-
 export const authSchema = z.object({
   username: z.string().min(1),
   password: z.string().min(1),
