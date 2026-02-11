@@ -39,12 +39,6 @@ export const donationDataSchema = z.object({
   donor_name: z.string().min(1),
   donation_purpose: z.string().optional().or(z.literal("")),
   receipt_number: z.string().optional().or(z.literal("")),
-
-  project_id: z
-    .string()
-    .nullable()
-    .optional()
-    .transform((val) => (val === "" ? null : val)),
 });
 
 export const donationSchema = z.object({
@@ -57,7 +51,11 @@ export const createExpenseSchema = z.object({
   category: z.string().min(1),
   description: z.string().optional().or(z.literal("")),
   project_name: z.string().optional().nullable(),
-  attachment_url: z.string().url().optional().or(z.literal("")),
+  attachment_url: z.union([
+    z.string().url(),
+    z.literal(""),
+    z.null()
+  ]).optional(),
 });
 
 const projectBase = {
