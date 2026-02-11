@@ -79,7 +79,7 @@ export const userSchema = z.object({
     password: z.string().min(6).optional().or(z.literal("")),
     role: z.enum(["admin", "staff"]),
     id: z.string().optional(),
-    before: z.string().min(1), 
+    before: z.string().optional(), 
   }),
 });
 export const authSchema = z.object({
