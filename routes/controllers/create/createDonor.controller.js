@@ -20,7 +20,13 @@ export async function createDonorController(req, res) {
   const result = await createDonor(donorData, decoded.username);
 
   if (result.success)
-    return res.status(201).json({ message: "Donor created", id: result.id });
+    return res
+      .status(201)
+      .json({
+        message: "Donor created",
+        id: result.id,
+        public_id: result.public_id,
+      });
 
   return res.status(500).json({ error: result.error });
 }
