@@ -30,7 +30,9 @@ import { editDonoationController } from "./controllers/edit/editDonation.control
 import { validate } from "./middleware/validate.js";
 
 import {
-  donorSchema,
+  createDonorSchema,
+  editDonorSchema,
+  deleteDonorSchema,
   userSchema,
   createProjectSchema,
   editProjectSchema,
@@ -38,7 +40,6 @@ import {
   createExpenseSchema,
   deleteByIdSchema,
   deleteUserSchema,
-  usernameSchema,
   authSchema,
 } from "./schemas/index.js";
 
@@ -47,7 +48,7 @@ dotenv.config({ path: path.join(__dirname, "../.env") });
 
 const router = express.Router();
 
-router.post("/delete-donor", validate(deleteByIdSchema), deleteDonorController);
+router.post("/delete-donor", validate(deleteDonorSchema), deleteDonorController);
 router.post(
   "/delete-project",
   validate(deleteByIdSchema),
@@ -73,7 +74,7 @@ router.get("/load-stats", loadStatsController);
 router.post("/auth", validate(authSchema), authController);
 router.post("/check-token", checkTokenController);
 
-router.post("/create-donor", validate(donorSchema), createDonorController);
+router.post("/create-donor", validate(createDonorSchema), createDonorController);
 router.post(
   "/create-donation",
   validate(donationSchema),
@@ -97,7 +98,7 @@ router.post(
   validate(donationSchema),
   editDonoationController,
 );
-router.post("/edit-donor", validate(donorSchema), editDonorController);
+router.post("/edit-donor", validate(editDonorSchema), editDonorController);
 router.post(
   "/edit-project",
   validate(editProjectSchema),
