@@ -1,15 +1,18 @@
-import pool from "../../../db/db.js";
-
 export async function createDonor(donorData, username) {
   const { first_name, last_name, email, privacy_preference, phone, notes } =
     donorData;
 
-  const [rows] = await pool.query(`SELECT COUNT(*) as count FROM donors`);
-  const nextNumber = (rows[0]?.count || 0) + 1;
-  const donor_public_id = `DNR-${nextNumber.toString().padStart(8, "0")}`;
-
+  const connection = await pool.getConnection();
   try {
-    const [result] = await pool.query(
+    await connection.beginTransaction();
+
+    const [rows] = await connection.query(
+      `SELECT MAX(id) as maxId FROM donors`,
+    );
+    const nextNumber = (rows[0]?.maxId || 0) + 1;
+    const donor_public_id = `DNR-${nextNumber.toString().padStart(8, "0")}`;
+
+    const [result] = await connection.query(
       `INSERT INTO donors (
         first_name, last_name, email, privacy_preference,
         created_at, donor_public_id, phone, notes
@@ -25,23 +28,35 @@ export async function createDonor(donorData, username) {
       ],
     );
 
-    await pool.query(
+    const newId = result.insertId;
+
+    await connection.query(
       `UPDATE system_stats SET total_donors = total_donors + 1 WHERE id = 1`,
     );
 
-    await pool.query(
+    await connection.query(
       `INSERT INTO audit_logs (entity_type, entity_id, changed_at, action, changed_by_username)
        VALUES (?, ?, NOW(), ?, ?)`,
       ["donor", donor_public_id, "create", username],
     );
 
-    console.log("Donor created with ID:", result.insertId);
-    return { success: true, id: result.insertId, public_id: donor_public_id };
-  } catch (error) {
-    console.error("Error creating donor:", error.message);
+    await connection.commit();
+
     return {
-      success: false,
-      error: error.message,
+      success: true,
+      id: newId,
+      public_id: donor_public_id,
     };
+  } catch (error) {
+    await connection.rollback();
+    console.error("Error creating donor:", error.message);
+
+    const errorMsg = error.message.includes("Duplicate entry")
+      ? "Conflict: This Donor ID already exists. Please try again."
+      : error.message;
+
+    return { success: false, error: errorMsg };
+  } finally {
+    connection.release();
   }
 }
