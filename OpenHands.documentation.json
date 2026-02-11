@@ -69,13 +69,8 @@
         },
         "url": {
           "raw": "{{baseURL}}/admin/create-donation",
-          "host": [
-            "{{baseURL}}"
-          ],
-          "path": [
-            "admin",
-            "create-donation"
-          ]
+          "host": ["{{baseURL}}"],
+          "path": ["admin", "create-donation"]
         }
       },
       "response": []
@@ -142,13 +137,8 @@
         },
         "url": {
           "raw": "{{baseURL}}/admin/delete-project",
-          "host": [
-            "{{baseURL}}"
-          ],
-          "path": [
-            "admin",
-            "delete-project"
-          ]
+          "host": ["{{baseURL}}"],
+          "path": ["admin", "delete-project"]
         }
       },
       "response": []
@@ -215,13 +205,8 @@
         },
         "url": {
           "raw": "{{baseURL}}/admin/edit-project",
-          "host": [
-            "{{baseURL}}"
-          ],
-          "path": [
-            "admin",
-            "edit-project"
-          ]
+          "host": ["{{baseURL}}"],
+          "path": ["admin", "edit-project"]
         }
       },
       "response": []
@@ -289,14 +274,9 @@
         "url": {
           "raw": "http://localhost:3000/admin/create-project",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "admin",
-            "create-project"
-          ]
+          "path": ["admin", "create-project"]
         }
       },
       "response": []
@@ -364,14 +344,9 @@
         "url": {
           "raw": "http://localhost:3000/admin/delete-donor",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "admin",
-            "delete-donor"
-          ]
+          "path": ["admin", "delete-donor"]
         }
       },
       "response": []
@@ -439,14 +414,9 @@
         "url": {
           "raw": "http://localhost:3000/admin/void-expense",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "admin",
-            "void-expense"
-          ]
+          "path": ["admin", "void-expense"]
         }
       },
       "response": []
@@ -514,14 +484,9 @@
         "url": {
           "raw": "http://localhost:3000/admin/void-donation",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "admin",
-            "void-donation"
-          ]
+          "path": ["admin", "void-donation"]
         }
       },
       "response": []
@@ -592,14 +557,9 @@
         "url": {
           "raw": "http://localhost:3000/admin/load-users",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "admin",
-            "load-users"
-          ]
+          "path": ["admin", "load-users"]
         }
       },
       "response": []
@@ -670,14 +630,9 @@
         "url": {
           "raw": "http://localhost:3000/admin/load-projects",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "admin",
-            "load-projects"
-          ]
+          "path": ["admin", "load-projects"]
         }
       },
       "response": []
@@ -748,14 +703,9 @@
         "url": {
           "raw": "http://localhost:3000/admin/load-expenses?year=2026&month=1",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "admin",
-            "load-expenses"
-          ],
+          "path": ["admin", "load-expenses"],
           "query": [
             {
               "key": "year",
@@ -836,14 +786,9 @@
         "url": {
           "raw": "http://localhost:3000/admin/load-donors?year=2026&month=1&search=ben",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "admin",
-            "load-donors"
-          ],
+          "path": ["admin", "load-donors"],
           "query": [
             {
               "key": "year",
@@ -928,14 +873,9 @@
         "url": {
           "raw": "http://localhost:3000/admin/load-donations?year=2026&month=1&search=Benet",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "admin",
-            "load-donations"
-          ],
+          "path": ["admin", "load-donations"],
           "query": [
             {
               "key": "year",
@@ -955,7 +895,7 @@
       "response": []
     },
     {
-      "name": "http://localhost:3000/admin/load-logs",
+      "name": "http://localhost:3000/admin/load-logs?year=2026&month=1",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
       },
@@ -1018,16 +958,11 @@
           }
         },
         "url": {
-          "raw": "http://localhost:3000/admin/load-logs",
+          "raw": "http://localhost:3000/admin/load-logs?year=2026&month=1",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "admin",
-            "load-logs"
-          ],
+          "path": ["admin", "load-logs"],
           "query": [
             {
               "key": "year",
@@ -1105,14 +1040,9 @@
         "url": {
           "raw": "http://localhost:3000/admin/create-donor",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "admin",
-            "create-donor"
-          ]
+          "path": ["admin", "create-donor"]
         }
       },
       "response": []
@@ -1180,14 +1110,9 @@
         "url": {
           "raw": "http://localhost:3000/admin/create-expense",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "admin",
-            "create-expense"
-          ]
+          "path": ["admin", "create-expense"]
         }
       },
       "response": []
@@ -1255,14 +1180,9 @@
         "url": {
           "raw": "http://localhost:3000/admin/create-user",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "admin",
-            "create-user"
-          ]
+          "path": ["admin", "create-user"]
         }
       },
       "response": []
@@ -1330,14 +1250,9 @@
         "url": {
           "raw": "http://localhost:3000/admin/delete-user",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "admin",
-            "delete-user"
-          ]
+          "path": ["admin", "delete-user"]
         }
       },
       "response": []
@@ -1405,14 +1320,9 @@
         "url": {
           "raw": "http://localhost:3000/admin/edit-donor",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "admin",
-            "edit-donor"
-          ]
+          "path": ["admin", "edit-donor"]
         }
       },
       "response": []
@@ -1480,14 +1390,9 @@
         "url": {
           "raw": "http://localhost:3000/admin/edit-user",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "admin",
-            "edit-user"
-          ]
+          "path": ["admin", "edit-user"]
         }
       },
       "response": []
@@ -1558,14 +1463,9 @@
         "url": {
           "raw": "http://localhost:3000/api/load?year=2026&month=1",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "api",
-            "load"
-          ],
+          "path": ["api", "load"],
           "query": [
             {
               "key": "year",
@@ -1643,14 +1543,9 @@
         "url": {
           "raw": "http://localhost:3000/admin/auth",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "admin",
-            "auth"
-          ]
+          "path": ["admin", "auth"]
         }
       },
       "response": []
@@ -1721,14 +1616,9 @@
         "url": {
           "raw": "http://localhost:3000/admin/load-stats",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "admin",
-            "load-stats"
-          ]
+          "path": ["admin", "load-stats"]
         }
       },
       "response": []
@@ -1796,14 +1686,78 @@
         "url": {
           "raw": "http://localhost:3000/admin/edit-donation",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "3000",
-          "path": [
-            "admin",
-            "edit-donation"
+          "path": ["admin", "edit-donation"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:3000/admin/check-token",
+      "request": {
+        "auth": {
+          "type": "jwt",
+          "jwt": [
+            {
+              "key": "algorithm",
+              "value": "HS256",
+              "type": "string"
+            },
+            {
+              "key": "isSecretBase64Encoded",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "key": "payload",
+              "value": "{}",
+              "type": "string"
+            },
+            {
+              "key": "addTokenTo",
+              "value": "header",
+              "type": "string"
+            },
+            {
+              "key": "headerPrefix",
+              "value": "Bearer",
+              "type": "string"
+            },
+            {
+              "key": "queryParamKey",
+              "value": "token",
+              "type": "string"
+            },
+            {
+              "key": "header",
+              "value": "{}",
+              "type": "string"
+            }
           ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNzcwODE4NjUwLCJleHAiOjE3NzA5MDUwNTB9.K0LUDQc6-gs4BT9eG1DE8PtzogZ0pxmMoDN7-JLQq5c",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": \"DNR_00000001\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/admin/check-token",
+          "protocol": "https",
+          "host": ["donationsbackend-production-02c1", "up", "railway", "app"],
+          "path": ["admin", "check-token"]
         }
       },
       "response": []
