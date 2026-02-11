@@ -22,7 +22,14 @@ export async function editDonorController(req, res) {
 
   const result = await editDonor(donorData, decoded.username);
 
-  if (result.success) return res.status(201).json({ message: result.message });
+  if (result.success)
+    return res
+      .status(201)
+      .json({
+        message: result.message,
+        id: result.id,
+        public_id: result.public_id,
+      });
 
   return res.status(500).json({ error: result.error || result.message });
 }
