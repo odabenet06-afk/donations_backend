@@ -39,7 +39,12 @@ export const donationDataSchema = z.object({
   donor_name: z.string().min(1),
   donation_purpose: z.string().optional().or(z.literal("")),
   receipt_number: z.string().optional().or(z.literal("")),
-  project_id: z.string().uuid().nullable().optional(),
+  project_id: z
+    .string()
+    .uuid()
+    .nullable()
+    .optional()
+    .transform((val) => (val === "" ? null : val)),
 });
 
 export const donationSchema = z.object({
