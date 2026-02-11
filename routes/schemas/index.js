@@ -39,6 +39,7 @@ export const donationDataSchema = z.object({
   donor_name: z.string().min(1),
   donation_purpose: z.string().optional().or(z.literal("")),
   receipt_number: z.string().optional().or(z.literal("")),
+  project_id: z.union([z.string(), z.number()]).nullish(),
 });
 
 export const donationSchema = z.object({
@@ -79,7 +80,7 @@ export const userSchema = z.object({
     password: z.string().min(6).optional().or(z.literal("")),
     role: z.enum(["admin", "staff"]),
     id: z.string().optional(),
-    before: z.string().optional(), 
+    before: z.string().optional(),
   }),
 });
 export const authSchema = z.object({
