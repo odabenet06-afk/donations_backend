@@ -8,7 +8,6 @@ export async function createDonation(donationData, username) {
     donation_purpose = "",
     receipt_number = "",
     donor_name,
-    project_id = null,
   } = donationData;
 
   if (!donor_id || !donor_name || !amount || !currency) {
@@ -29,9 +28,8 @@ export async function createDonation(donationData, username) {
   try {
     const [result] = await pool.query(
       `INSERT INTO donations (
-    amount, currency, donor_id, donation_purpose, receipt_number, donor_name,
-    project_id, created_by_username, created_at
-  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
+    amount, currency, donor_id, donation_purpose, receipt_number, donor_name, created_by_username, created_at
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())`,
       [
         amount,
         currency,
@@ -39,7 +37,6 @@ export async function createDonation(donationData, username) {
         donation_purpose || "",
         receipt_number || "",
         donor_name,
-        project_id || null,
         username,
       ],
     );
