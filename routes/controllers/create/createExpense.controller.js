@@ -1,5 +1,5 @@
-import handleTokens from "../../adminFunctions/handleTokens";
-import { createExpense } from "../../models/create/createExpense.model";
+import handleTokens from "../../adminFunctions/handleTokens.js";
+import { createExpense } from "../../models/create/createExpense.model.js";
 
 export async function createExpenseController(req, res) {
   const { expenseData } = req.body;
