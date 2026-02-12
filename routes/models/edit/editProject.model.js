@@ -2,19 +2,19 @@ import pool from "../../../db/db.js";
 import handleEncryption from "../../adminFunctions/bcrypt.js";
 
 export async function editProject(
-  id,      
+  id,
   name,
   description,
   status,
-  startDate,
-  endDate
+  start_date,
+  end_date,
 ) {
   try {
     const [result] = await pool.query(
       `UPDATE projects
        SET name = ?, description = ?, status = ?, start_date = ?, end_date = ? 
        WHERE id = ?`,
-      [name, description, status, startDate, endDate, id],
+      [name, description, status, start_date, end_date, id],
     );
 
     if (result.affectedRows === 0) {
