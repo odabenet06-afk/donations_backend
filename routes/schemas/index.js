@@ -77,8 +77,8 @@ const projectBase = {
   name: z.string().min(1),
   description: z.string().nullish().or(z.literal("")),
   status: z.enum(["planned", "active", "completed"]),
-  startDate: z.string().optional().nullable().or(z.literal("")),
-  endDate: z.string().optional().nullable().or(z.literal("")),
+  start_date: z.string().optional().nullable().or(z.literal("")),
+  end_date: z.string().optional().nullable().or(z.literal("")),
 };
 
 export const editProjectSchema = z.object({
