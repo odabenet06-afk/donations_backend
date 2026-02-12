@@ -4,6 +4,8 @@ import handleTokens from "../../adminFunctions/handleTokens.js";
 export async function editProjectController(req, res) {
   const { name, description, status, start_date, end_date, id } = req.body;
 
+  console.log(start_date, end_date);
+
   const authHeader = req.headers["authorization"];
   if (!authHeader)
     return res.status(401).json({ message: "Missing authorization header" });
