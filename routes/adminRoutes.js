@@ -26,7 +26,7 @@ import { createProjectController } from "./controllers/create/createProject.cont
 import { deleteProjectController } from "./controllers/delete/deleteProject.controller.js";
 import { editProjectController } from "./controllers/edit/editProject.controller.js";
 import { editDonoationController } from "./controllers/edit/editDonation.controller.js";
-
+import { loadCategoryController } from "./controllers/load/loadCategory.controller.js";
 import { validate } from "./middleware/validate.js";
 
 import {
@@ -70,6 +70,7 @@ router.get("/load-donors", loadDonorsController);
 router.get("/load-donations", loadDonationsController);
 router.get("/load-logs", loadLogsController);
 router.get("/load-stats", loadStatsController);
+router.get("/load-category", loadCategoryController);
 
 router.post("/auth", validate(authSchema), authController);
 router.post("/check-token", checkTokenController);
