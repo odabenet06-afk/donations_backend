@@ -7,6 +7,7 @@ import { createDonorController } from "./controllers/create/createDonor.controll
 import { editUserController } from "./controllers/edit/editUser.controller.js";
 import { editDonorController } from "./controllers/edit/editDonor.controller.js";
 import { deleteUserController } from "./controllers/delete/deleteUser.controller.js";
+import { deleteCategoryController } from "./controllers/delete/deleteCategory.controller.js";
 import { createUserController } from "./controllers/create/createUser.controller.js";
 import { createExpenseController } from "./controllers/create/createExpense.controller.js";
 import { createDonationController } from "./controllers/create/createDonation.controller.js";
@@ -43,6 +44,7 @@ import {
   deleteUserSchema,
   authSchema,
   createCategorySchema,
+  deleteCategorySchema,
 } from "./schemas/index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -59,6 +61,11 @@ router.post(
   "/delete-project",
   validate(deleteByIdSchema),
   deleteProjectController,
+);
+router.post(
+  "/delete-category",
+  validate(deleteCategorySchema),
+  deleteCategoryController,
 );
 router.post("/void-expense", validate(deleteByIdSchema), voidExpenseController);
 router.post(

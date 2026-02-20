@@ -109,4 +109,7 @@ export const createCategorySchema = z.object({
     mk: z.string().min(1),
   }),
 });
- 
+
+export const deleteCategorySchema = z.object({
+  id: z.number().positive(),
+});
