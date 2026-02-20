@@ -26,7 +26,7 @@ import { loadStatsController } from "./controllers/load/loadStats.controller.js"
 import { createProjectController } from "./controllers/create/createProject.controller.js";
 import { deleteProjectController } from "./controllers/delete/deleteProject.controller.js";
 import { editProjectController } from "./controllers/edit/editProject.controller.js";
-import { editDonoationController } from "./controllers/edit/editDonation.controller.js";
+import { editDonationController } from "./controllers/edit/editDonation.controller.js";
 import { loadCategoryController } from "./controllers/load/loadCategory.controller.js";
 import { createCategoryController } from "./controllers/create/createCategory.controller.js";
 import { validate } from "./middleware/validate.js";
@@ -116,11 +116,7 @@ router.post(
 router.post("/create-user", validate(userSchema), createUserController);
 
 router.post("/edit-user", validate(userSchema), editUserController);
-router.post(
-  "/edit-donation",
-  validate(donationSchema),
-  editDonoationController,
-);
+router.post("/edit-donation", validate(donationSchema), editDonationController);
 router.post("/edit-donor", validate(editDonorSchema), editDonorController);
 router.post(
   "/edit-project",
