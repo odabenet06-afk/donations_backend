@@ -26,7 +26,6 @@ export async function editDonation(donationData, username) {
   for (const field of editableFields) {
     let newVal = donationData[field];
 
-
     if (field === "amount" && newVal !== undefined) newVal = Number(newVal) || 0;
     if (field === "currency" && newVal) newVal = newVal.toUpperCase();
 
@@ -49,14 +48,16 @@ export async function editDonation(donationData, username) {
   try {
     await pool.query(sql, updateParams);
 
-
     await pool.query(
       `INSERT INTO audit_logs (entity_type, entity_id, changed_at, action, changed_by_username, before_value, after_value)
        VALUES (?, ?, NOW(), ?, ?, ?, ?)`,
       ["donation", id, "update", username, JSON.stringify(before_value), JSON.stringify(after_value)]
     );
 
-    return { success: true, message: "Donation updated and audit log created." };
+    const [donorRows] = await pool.query(`SELECT donor_email FROM donations WHERE id = ?`, [id]);
+    const email = donorRows[0]?.donor_email || null;
+
+    return { success: true, message: "Donation updated and audit log created.", after_value, email };
   } catch (error) {
     console.error("Database Update Error:", error.message);
     return { success: false, error: error.message };
