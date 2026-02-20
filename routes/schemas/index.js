@@ -101,3 +101,12 @@ export const authSchema = z.object({
   username: z.string().min(1),
   password: z.string().min(1),
 });
+
+export const createCategorySchema = z.object({
+  categoryData: z.object({
+    en: z.string().min(1),
+    sq: z.string().min(1),
+    mk: z.string().min(1),
+  }),
+});
+ 

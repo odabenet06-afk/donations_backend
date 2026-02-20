@@ -1,9 +1,8 @@
 import handleTokens from "../../adminFunctions/handleTokens.js";
-import { createExpense } from "../../models/create/createExpense.model.js";
-import { toggleReload } from "../../../index.js";
+import { createCategory} from "../../models/create/createCategory.model.js";
 
-export async function createExpenseController(req, res) {
-  const { expenseData } = req.body;
+export async function createCategoryController(req, res) {
+  const { categoryData } = req.body;
 
   const authHeader = req.headers["authorization"];
   if (!authHeader) return res.status(401).json({ message: "Missing token" });
@@ -16,14 +15,12 @@ export async function createExpenseController(req, res) {
     return res.status(401).json({ message: "Invalid token" });
   }
 
-  const dbResult = await createExpense(expenseData, decoded.username);
+  const dbResult = await createCategory(categoryData);
 
   if (dbResult.success) {
-    toggleReload();
-
     return res
       .status(201)
-      .json({ message: "Expense created", id: dbResult.id });
+      .json({ message: "Category created", id: dbResult.id });
   }
 
   return res.status(500).json({ error: dbResult.error });

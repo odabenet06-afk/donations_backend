@@ -27,6 +27,7 @@ import { deleteProjectController } from "./controllers/delete/deleteProject.cont
 import { editProjectController } from "./controllers/edit/editProject.controller.js";
 import { editDonoationController } from "./controllers/edit/editDonation.controller.js";
 import { loadCategoryController } from "./controllers/load/loadCategory.controller.js";
+import { createCategoryController } from "./controllers/create/createCategory.controller.js";
 import { validate } from "./middleware/validate.js";
 
 import {
@@ -41,6 +42,7 @@ import {
   deleteByIdSchema,
   deleteUserSchema,
   authSchema,
+  createCategorySchema,
 } from "./schemas/index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -48,7 +50,11 @@ dotenv.config({ path: path.join(__dirname, "../.env") });
 
 const router = express.Router();
 
-router.post("/delete-donor", validate(deleteDonorSchema), deleteDonorController);
+router.post(
+  "/delete-donor",
+  validate(deleteDonorSchema),
+  deleteDonorController,
+);
 router.post(
   "/delete-project",
   validate(deleteByIdSchema),
@@ -75,7 +81,11 @@ router.get("/load-category", loadCategoryController);
 router.post("/auth", validate(authSchema), authController);
 router.post("/check-token", checkTokenController);
 
-router.post("/create-donor", validate(createDonorSchema), createDonorController);
+router.post(
+  "/create-donor",
+  validate(createDonorSchema),
+  createDonorController,
+);
 router.post(
   "/create-donation",
   validate(donationSchema),
@@ -90,6 +100,11 @@ router.post(
   "/create-project",
   validate(createProjectSchema),
   createProjectController,
+);
+router.post(
+  "/create-category",
+  validate(createCategorySchema),
+  createCategoryController,
 );
 router.post("/create-user", validate(userSchema), createUserController);
 
