@@ -93,6 +93,22 @@ CREATE TABLE `users` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE category (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  en VARCHAR(255) NOT NULL,
+  sq VARCHAR(255) NOT NULL,
+  mk VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO category (en, sq, mk)
+VALUES
+('Salary', 'Paga', 'Плата'),
+('Office materials', 'Materiale zyre', 'Канцелариски материјали'),
+('Transportation', 'Transporti', 'Транспорт'),
+('Family support', 'Përkrahje familjare', 'Семејна поддршка'),
+('Project investment', 'Investim në projekt', 'Инвестиција во проект');
+
 -- This inserts the user admin with the password admin123
 INSERT INTO `users` (`username`, `password_hash`, `role`)
 VALUES ('admin', '$2b$10$YMbaySNxd4sNVwOFrmsiaOsJQKx.oz7CQlmSxjdQ3zP.fPHl71Omi', 'admin');
