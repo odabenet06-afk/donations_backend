@@ -1,7 +1,15 @@
 import pool from "../../../db/db.js";
 
 export async function editDonation(donationData, username) {
-  const { id, donor_id, amount, currency, donor_name, donation_purpose, receipt_number } = donationData;
+  const {
+    id,
+    donor_id,
+    amount,
+    currency,
+    donor_name,
+    donation_purpose,
+    receipt_number,
+  } = donationData;
 
   if (!id) return { success: false, message: "Donation ID missing" };
 
@@ -26,7 +34,8 @@ export async function editDonation(donationData, username) {
   for (const field of editableFields) {
     let newVal = donationData[field];
 
-    if (field === "amount" && newVal !== undefined) newVal = Number(newVal) || 0;
+    if (field === "amount" && newVal !== undefined)
+      newVal = Number(newVal) || 0;
     if (field === "currency" && newVal) newVal = newVal.toUpperCase();
 
     const oldVal = beforeRecord[field];
@@ -51,13 +60,28 @@ export async function editDonation(donationData, username) {
     await pool.query(
       `INSERT INTO audit_logs (entity_type, entity_id, changed_at, action, changed_by_username, before_value, after_value)
        VALUES (?, ?, NOW(), ?, ?, ?, ?)`,
-      ["donation", id, "update", username, JSON.stringify(before_value), JSON.stringify(after_value)]
+      [
+        "donation",
+        id,
+        "update",
+        username,
+        JSON.stringify(before_value),
+        JSON.stringify(after_value),
+      ],
     );
 
-    const [donorRows] = await pool.query(`SELECT donor_email FROM donations WHERE id = ?`, [id]);
-    const email = donorRows[0]?.donor_email || null;
+    const [donorRows] = await pool.query(
+      `SELECT email FROM donors WHERE donor_public_id = ?`,
+      [donationData.donor_id],
+    );
+    const email = donorRows[0]?.email || null;
 
-    return { success: true, message: "Donation updated and audit log created.", after_value, email };
+    return {
+      success: true,
+      message: "Donation updated and audit log created.",
+      after_value,
+      email,
+    };
   } catch (error) {
     console.error("Database Update Error:", error.message);
     return { success: false, error: error.message };
